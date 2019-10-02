@@ -1,0 +1,79 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define N 1000010
+int primes[N];
+// instant hash to check whether the number is prime or not.
+void sieve()
+{
+    int i,j;
+    for(i=2;i*i<N;i++)
+    {
+        for(j=i*i;j<N;j+=i)
+        {
+            primes[j] = 1;
+        }
+    }
+}
+// To count the number of bits in the integer 'n'
+int coun(int n)
+{
+    int ans=0;
+    while(n)
+    {
+        ++ans;
+        n>>=1;
+    }
+    return ans;
+}
+int main()
+{
+    int t,n,siz,a,b,c,d,i;
+    sieve();
+    cin>>t;
+    while(t--)
+    {
+      // initialize it to -1. If answer is not available, this value will be printed.
+        a=b=c=d=-1;
+        cin>>n;
+        siz = coun(n);
+        int x = 1<<(siz-1);
+        x = x^(x-1);
+        // A will be a number such that it has same numbers of bits as N. (By observation)
+        // So we can search from N+1 to largest number having same bits (that is X).
+        
+        for(i=n+1;i<=x;i++)   // This loop will run atmost 6 times because 
+                              // in every 6 numbers, 1 or 2 numbers are prime.
+        {
+            if(!primes[i])  //  ~prime means the number is prime (0 is stored at prime indexes)
+            {
+                a=i;break;
+            }
+        }
+        for(i=n+1;i<=x;i++)  // Also this loop will run two times atmost (even number will be composite.)
+        {
+            if(primes[i])
+            {
+                c=i;break;
+            }
+        }
+        for(i=x+1;i<N;i++)  // This loop will run atmost 6 times
+        {
+            if(!primes[i])
+            {
+                b=i;break;
+            }
+        }
+        for(i=x+1;i<N;i++)
+        {
+            if(primes[i])
+            {
+                d=i;break;
+            }
+        }
+        cout<<a<<" "<<b<<" "<<c<<" "<<d<<"\n";
+
+
+
+    }
+
+}
