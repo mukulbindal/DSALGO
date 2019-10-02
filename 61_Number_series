@@ -1,0 +1,18 @@
+"""
+The number of *numbers* having 1 digit : 3    ie 3^1   
+The number of *numbers* having 2 digits : 9    ie 3^2
+The number of *numbers* having 3 digits : 27    ie 3^3
+The number of *numbers* having i digits : 3**i    ie 3^i  
+// you have 3 digits and i places. repetition is allowed
+So the series will be 1,4,13,40.....
+ith number will be i-1 th number + 3**i
+
+Or ith number can be Ai = (3**i - 1 )/2
+We are given the value of Ai and we need to find i,
+Solving the above equation we get:
+i = log(2n+1)/log(3)
+"""
+
+from math import log
+n = int(input())
+print(int(log(2*n+1,3)))
