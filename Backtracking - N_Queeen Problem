@@ -1,0 +1,73 @@
+/*
+BackTracking demonstration on N-Queen Problem. 
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+#define N 10
+bool board[N][N];
+//bool line[N]; // Used for N-Castle Problem
+int n; // size of board
+bool  unabletoput(int i , int j)   // Check whether putting a queen in (i,j)th place 
+									// is possible or not
+{
+	for(int k = i;k>=0;k--) // go through the column
+		if (board[k][j])return true;
+	for(int k=i,l=j;k>=0&&l>=0;--k,--l) // go through the top left diagonal
+		if (board[k][l])return true;
+	for(int k=i,l=j;k>=0&&l<n;--k,++l) // go through the top right diagonal
+		if (board[k][l])return true;
+	return false; //indicates that we can put a Queen here.
+}
+bool canplace(int row)
+{
+	if(row == n)  // base condition. If we are at nth row(ie n+1 th row in 1-based indexing )
+				// Then we are done, we found the solution.
+		return true;
+	for(int i = 0;i<n;i++) // try to put a piece in each column of current row.
+	{
+		if(unabletoput(row , i))continue; // If were are unable to put a piece, try next 
+											// column.
+		board[row][i] = true; // Suppose we put our piece here...
+		if(canplace(row+1))  // Now check can we put a piece in next row?
+		{
+			return true;  // If we can, we found the solution.
+		}
+		board[row][i] = false; // else remove that piece, and continue searching
+	}
+	return false; // If no column can be filled , solution not possible for current row.
+}
+void display() // display the board.
+{
+	for(int i=0;i<n;i++)
+	{
+		for (int j=0;j<n;j++)
+		{
+			if(board[i][j])
+			{
+				cout<<"Q";
+			}
+			else{
+				cout<<"-";
+			}
+			cout<<"\t";
+		}
+		cout<<"\n";
+	}
+}
+int main()
+{
+	int t;
+	cin>>t;  // Test Cases
+	while(t--){
+	//memset(line,false,sizeof(line));
+	memset(board,false,sizeof(board));
+	cin>>n;   // Size of the board.
+	cout<<n<<endl;
+	if(canplace(0))   // can we place a piece in row-0 ??
+	display();
+	else
+	cout<<"-1\n";
+	}
+	
+}
